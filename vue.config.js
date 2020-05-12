@@ -36,7 +36,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    before: require('./mock/mock-server.js'),
+    proxy: {
+      '/server': {
+        target: 'http://localhost:8000/',
+        pathRewrite: { '^/server': '' },
+        changeOrigin: false,
+        secure: false
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

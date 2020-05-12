@@ -85,7 +85,7 @@ export const constantRoutes = [
     children: [
       {
         path: '',
-        component: () => import('@/views/global/index'),
+        component: () => import('@/views/ncovGlobal/index'),
         name: 'GlobalMap',
         meta: { title: '全球疫情地图', icon: 'international', affix: true }
       }
@@ -97,7 +97,7 @@ export const constantRoutes = [
     children: [
       {
         path: '',
-        component: () => import('@/views/global/index'),
+        component: () => import('@/views/ncovChina/index'),
         name: 'ChinaMap',
         meta: { title: '中国疫情地图', icon: 'example', affix: true }
       }
@@ -109,7 +109,7 @@ export const constantRoutes = [
     children: [
       {
         path: '',
-        component: () => import('@/views/global/index'),
+        component: () => import('@/views/ncovData/index'),
         name: 'SearchData',
         meta: { title: '疫情数据查询', icon: 'search', affix: true }
       }
@@ -121,7 +121,7 @@ export const constantRoutes = [
     children: [
       {
         path: '',
-        component: () => import('@/views/global/index'),
+        component: () => import('@/views/ncovCompare/index'),
         name: 'CompareData',
         meta: { title: '疫情数据对比', icon: 'chart', affix: true }
       }
