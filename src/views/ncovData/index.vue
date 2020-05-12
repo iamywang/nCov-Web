@@ -40,7 +40,7 @@
             <el-tag>地区</el-tag>
           </el-row>
           <el-row style="margin-bottom: 8px">
-            <div style="font-size: 18px">{{ list[0].place }}（{{ list[0].day }}）</div>
+            <div style="font-size: 18px">{{ list[list.length - 1].place }}（{{ list[list.length - 1].day }}）</div>
           </el-row>
         </el-col>
         <el-col :span="5">
@@ -48,7 +48,7 @@
             <el-tag>累计确诊</el-tag>
           </el-row>
           <el-row style="margin-bottom: 8px">
-            <div style="font-size: 18px">{{ list[0].confirm }}（新增{{ list[0].new_confirm }}）</div>
+            <div style="font-size: 18px">{{ list[list.length - 1].confirm }}（新增{{ list[list.length - 1].new_confirm }}）</div>
           </el-row>
         </el-col>
         <el-col :span="5">
@@ -56,47 +56,55 @@
             <el-tag>现存确诊</el-tag>
           </el-row>
           <el-row style="margin-bottom: 8px">
-            <div style="font-size: 18px">{{ list[0].current }}</div>
+            <div style="font-size: 18px">{{ list[list.length - 1].current }}</div>
           </el-row>
         </el-col>
         <el-col :span="5">
           <el-row style="margin-bottom: 8px">
             <el-tag>累计治愈</el-tag>
-            <span>{{ list[0].cured }}（新增{{ list[0].new_cured }}）</span>
+            <span>{{ list[list.length - 1].cured }}（新增{{ list[list.length - 1].new_cured }}）</span>
           </el-row>
           <el-row style="margin-bottom: 8px">
             <el-tag>治愈率</el-tag>
-            <span>{{ (list[0].cured * 100 /list[0].confirm).toFixed(2) }}%</span>
+            <span>{{ (list[list.length - 1].cured * 100 /list[list.length - 1].confirm).toFixed(2) }}%</span>
           </el-row>
         </el-col>
         <el-col :span="5">
           <el-row style="margin-bottom: 8px">
             <el-tag>累计死亡</el-tag>
-            <span>{{ list[0].dead }}（新增{{ list[0].new_dead }}）</span>
+            <span>{{ list[list.length - 1].dead }}（新增{{ list[list.length - 1].new_dead }}）</span>
           </el-row>
           <el-row>
             <el-tag style="margin-bottom: 8px">死亡率</el-tag>
-            <span>{{ (list[0].dead * 100 /list[0].confirm).toFixed(2) }}%</span>
+            <span>{{ (list[list.length - 1].dead * 100 /list[list.length - 1].confirm).toFixed(2) }}%</span>
           </el-row>
         </el-col>
       </el-card>
     </el-col>
     <el-col :span="9" style="margin: 8px">
       <el-card style="height: 300px">
-        <el-row>确诊病例趋势</el-row>
+        <el-row>确诊病例趋势（两条折线-累计和现存）</el-row>
       </el-card>
     </el-col>
     <el-col :span="9" style="margin: 8px">
       <el-card style="height: 300px">
-        <el-row>治愈和死亡病例趋势</el-row>
+        <el-row>治愈和死亡病例趋势（折线图-治愈人数、死亡人数、治愈率、死亡率）</el-row>
       </el-card>
     </el-col>
     <el-col :span="5" style="margin: 8px">
       <el-card style="height: 300px">
-        <el-row>确诊省内分布</el-row>
+        <el-row>省内分布情况</el-row>
+        <el-tag>累计确诊-饼状图</el-tag>
+        <div>{{ list[list.length - 1].confirm }}/{{ province_list[0].confirm }}</div>
+        <el-tag>现存确诊-饼状图</el-tag>
+        <div>{{ list[list.length - 1].current }}/{{ province_list[0].current }}</div>
+        <el-tag>累计治愈-条形图</el-tag>
+        <div>{{ list[list.length - 1].cured }}/{{ province_list[0].cured }}</div>
+        <el-tag>累计死亡-条形图</el-tag>
+        <div>{{ list[list.length - 1].dead }}/{{ province_list[0].dead }}</div>
       </el-card>
     </el-col>
-    <el-table :data="list" element-loading-text="正在查询" stripe border fit highlight-current-row>
+    <el-table :data="last_14" element-loading-text="正在查询" stripe border fit highlight-current-row>
       <el-table-column align="center" type="index" />
       <el-table-column align="center" label="日期" prop="day" />
       <el-table-column align="center" label="省/市" prop="place" />
@@ -119,6 +127,8 @@ export default {
       list: [
         { 'day': '2020-05-12', 'confirm': 84451, 'current': 237, 'cured': 79570, 'new_confirm': 1, 'new_cured': 37, 'new_dead': 1, 'dead': 4644, 'place': '全国' }
       ],
+      province_list: [],
+      last_14: [],
       place_to_search: '',
       place_to_search_mul: '',
       date_to_search: '',
@@ -126,10 +136,14 @@ export default {
       date_to_search_ed: ''
     }
   },
+  created() {
+    var that = this
+    that.last_14 = that.list
+    that.province_list = that.list
+  },
   methods: {
     searchFunc_1() {
       var that = this
-      this.listLoading = true
       axios.get('/server/getProvince/', {
         params: {
           day: that.date_to_search,
@@ -137,11 +151,19 @@ export default {
         }
       }).then(function(res) {
         that.list = res.data
+        that.province_list = res.data
+        axios.get('/server/getProvinceLasts/', {
+          params: {
+            day: that.date_to_search,
+            province: that.place_to_search
+          }
+        }).then(function(res2) {
+          that.last_14 = res2.data
+        })
       })
     },
     searchFunc_1_ex() {
       var that = this
-      this.listLoading = true
       axios.get('/server/getCity/', {
         params: {
           day: that.date_to_search,
@@ -149,11 +171,26 @@ export default {
         }
       }).then(function(res) {
         that.list = res.data
+        axios.get('/server/getProvince/', {
+          params: {
+            day: that.date_to_search,
+            province: that.list[0].province
+          }
+        }).then(function(res2) {
+          that.province_list = res2.data
+          axios.get('/server/getCityLasts/', {
+            params: {
+              day: that.date_to_search,
+              city: that.place_to_search
+            }
+          }).then(function(res3) {
+            that.last_14 = res3.data
+          })
+        })
       })
     },
     searchFunc_2() {
       var that = this
-      this.listLoading = true
       axios.get('/server/getProvinceSeries/', {
         params: {
           start: that.date_to_search_st,
@@ -162,11 +199,12 @@ export default {
         }
       }).then(function(res) {
         that.list = res.data
+        that.last_14 = res.data
+        that.province_list = [that.list[that.list.length - 1]]
       })
     },
     searchFunc_2_ex() {
       var that = this
-      this.listLoading = true
       axios.get('/server/getCitySeries/', {
         params: {
           start: that.date_to_search_st,
@@ -175,6 +213,15 @@ export default {
         }
       }).then(function(res) {
         that.list = res.data
+        that.last_14 = res.data
+        axios.get('/server/getProvince/', {
+          params: {
+            day: that.date_to_search_ed,
+            province: that.list[0].province
+          }
+        }).then(function(res2) {
+          that.province_list = res2.data
+        })
       })
     }
   }
