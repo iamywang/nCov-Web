@@ -82,17 +82,17 @@
       </el-card>
     </el-col>
     <el-col :span="9" style="margin: 8px">
-      <el-card style="height: 300px">
-        <el-row>确诊病例趋势（两条折线-累计和现存）</el-row>
+      <el-card style="height: 400px">
+        <div id="confirm_chart" :style="{width: '100%', height: '350px'}" />
       </el-card>
     </el-col>
     <el-col :span="9" style="margin: 8px">
-      <el-card style="height: 300px">
-        <el-row>治愈和死亡病例趋势（折线图-治愈人数、死亡人数、治愈率、死亡率）</el-row>
+      <el-card style="height: 400px">
+        <div id="cured_chart" :style="{width: '100%', height: '350px'}" />
       </el-card>
     </el-col>
     <el-col :span="5" style="margin: 8px">
-      <el-card style="height: 300px">
+      <el-card style="height: 400px">
         <el-row>省内分布情况</el-row>
         <el-tag>累计确诊-饼状图</el-tag>
         <div>{{ list[list.length - 1].confirm }}/{{ province_list[0].confirm }}</div>
@@ -121,6 +121,9 @@
 
 <script>
 import axios from 'axios'
+import echarts from 'echarts'
+require('echarts/theme/macarons')
+
 export default {
   data() {
     return {
@@ -133,13 +136,21 @@ export default {
       place_to_search_mul: '',
       date_to_search: '',
       date_to_search_st: '',
-      date_to_search_ed: ''
+      date_to_search_ed: '',
+      confirm_chart: null,
+      cured_chart: null
     }
   },
   created() {
     var that = this
     that.last_14 = that.list
     that.province_list = that.list
+  },
+  mounted() {
+    var that = this
+    that.confirm_chart = echarts.init(document.getElementById('confirm_chart'))
+    that.cured_chart = echarts.init(document.getElementById('cured_chart'))
+    that.updateCharts()
   },
   methods: {
     searchFunc_1() {
@@ -159,6 +170,7 @@ export default {
           }
         }).then(function(res2) {
           that.last_14 = res2.data
+          that.updateCharts()
         })
       })
     },
@@ -185,6 +197,7 @@ export default {
             }
           }).then(function(res3) {
             that.last_14 = res3.data
+            that.updateCharts()
           })
         })
       })
@@ -201,6 +214,7 @@ export default {
         that.list = res.data
         that.last_14 = res.data
         that.province_list = [that.list[that.list.length - 1]]
+        that.updateCharts()
       })
     },
     searchFunc_2_ex() {
@@ -221,7 +235,95 @@ export default {
           }
         }).then(function(res2) {
           that.province_list = res2.data
+          that.updateCharts()
         })
+      })
+    },
+    updateCharts() {
+      var that = this
+      var days_data = []
+      var last_confirm_data = []
+      var last_current_data = []
+      var last_cured_data = []
+      var last_dead_data = []
+      for (var i = 0, len = that.last_14.length; i < len; i++) {
+        days_data[i] = that.last_14[i].day
+        last_confirm_data[i] = that.last_14[i].confirm
+        last_current_data[i] = that.last_14[i].current
+        last_cured_data[i] = that.last_14[i].cured
+        last_dead_data[i] = that.last_14[i].dead
+      }
+      that.confirm_chart.setOption({
+        title: {
+          text: '确诊病例趋势'
+        },
+        xAxis: {
+          data: days_data
+        },
+        yAxis: {},
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
+        legend: {
+          data: ['累计确诊', '现存确诊']
+        },
+        series: [{
+          name: '累计确诊',
+          smooth: true,
+          type: 'line',
+          data: last_confirm_data,
+        },
+        {
+          name: '现存确诊',
+          smooth: true,
+          type: 'line',
+          data: last_current_data
+        }]
+      })
+      that.cured_chart.setOption({
+        title: {
+          text: '治愈和死亡病例趋势'
+        },
+        xAxis: {
+          data: days_data
+        },
+        yAxis: {},
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
+        legend: {
+          data: ['累计治愈', '累计死亡']
+        },
+        series: [{
+          name: '累计治愈',
+          smooth: true,
+          type: 'line',
+          data: last_cured_data,
+        },
+        {
+          name: '累计死亡',
+          smooth: true,
+          type: 'line',
+          data: last_dead_data
+        }]
       })
     }
   }
