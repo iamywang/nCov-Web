@@ -81,27 +81,30 @@
         </el-col>
       </el-card>
     </el-col>
-    <el-col :span="9" style="margin: 8px">
-      <el-card style="height: 400px">
+    <el-col :span="24">
+      <el-card style="height: 250px; margin: 8px">
+        <el-col :span="5">
+          <div id="pro_confirm_pie" :style="{width: '100%', height: '240px'}" />
+        </el-col>
+        <el-col :span="5">
+          <div id="pro_current_pie" :style="{width: '100%', height: '240px'}" />
+        </el-col>
+        <el-col :span="7">
+          <div id="pro_cured_chart" :style="{width: '100%', height: '230px'}" />
+        </el-col>
+        <el-col :span="7">
+          <div id="pro_percent_chart" :style="{width: '100%', height: '230px'}" />
+        </el-col>
+      </el-card>
+    </el-col>
+    <el-col :span="12">
+      <el-card style="height: 400px; margin: 8px">
         <div id="confirm_chart" :style="{width: '100%', height: '350px'}" />
       </el-card>
     </el-col>
-    <el-col :span="9" style="margin: 8px">
-      <el-card style="height: 400px">
+    <el-col :span="12">
+      <el-card style="height: 400px; margin: 8px">
         <div id="cured_chart" :style="{width: '100%', height: '350px'}" />
-      </el-card>
-    </el-col>
-    <el-col :span="5" style="margin: 8px">
-      <el-card style="height: 400px">
-        <el-row>省内分布情况</el-row>
-        <el-tag>累计确诊-饼状图</el-tag>
-        <div>{{ list[list.length - 1].confirm }}/{{ province_list[0].confirm }}</div>
-        <el-tag>现存确诊-饼状图</el-tag>
-        <div>{{ list[list.length - 1].current }}/{{ province_list[0].current }}</div>
-        <el-tag>累计治愈-条形图</el-tag>
-        <div>{{ list[list.length - 1].cured }}/{{ province_list[0].cured }}</div>
-        <el-tag>累计死亡-条形图</el-tag>
-        <div>{{ list[list.length - 1].dead }}/{{ province_list[0].dead }}</div>
       </el-card>
     </el-col>
     <el-table :data="last_14" element-loading-text="正在查询" stripe border fit highlight-current-row>
@@ -123,6 +126,7 @@
 import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
+require('echarts/theme/roma')
 
 export default {
   data() {
@@ -138,7 +142,11 @@ export default {
       date_to_search_st: '',
       date_to_search_ed: '',
       confirm_chart: null,
-      cured_chart: null
+      cured_chart: null,
+      pro_confirm_pie: null,
+      pro_current_pie: null,
+      pro_cured_chart: null,
+      pro_percent_chart: null
     }
   },
   created() {
@@ -148,8 +156,12 @@ export default {
   },
   mounted() {
     var that = this
-    that.confirm_chart = echarts.init(document.getElementById('confirm_chart'))
-    that.cured_chart = echarts.init(document.getElementById('cured_chart'))
+    that.confirm_chart = echarts.init(document.getElementById('confirm_chart'), 'macarons')
+    that.cured_chart = echarts.init(document.getElementById('cured_chart'), 'macarons')
+    that.pro_confirm_pie = echarts.init(document.getElementById('pro_confirm_pie'), 'roma')
+    that.pro_current_pie = echarts.init(document.getElementById('pro_current_pie'), 'roma')
+    that.pro_cured_chart = echarts.init(document.getElementById('pro_cured_chart'), 'roma')
+    that.pro_percent_chart = echarts.init(document.getElementById('pro_percent_chart'), 'roma')
     that.updateCharts()
   },
   methods: {
@@ -281,12 +293,22 @@ export default {
           smooth: true,
           type: 'line',
           data: last_confirm_data,
+          markPoint: {
+            data: [
+              { type: 'max', name: '最大值' }
+            ]
+          }
         },
         {
           name: '现存确诊',
           smooth: true,
           type: 'line',
-          data: last_current_data
+          data: last_current_data,
+          markPoint: {
+            data: [
+              { type: 'min', name: '最小值' }
+            ]
+          }
         }]
       })
       that.cured_chart.setOption({
@@ -317,13 +339,173 @@ export default {
           smooth: true,
           type: 'line',
           data: last_cured_data,
+          markPoint: {
+            data: [
+              { type: 'max', name: '最大值' }
+            ]
+          }
         },
         {
           name: '累计死亡',
           smooth: true,
           type: 'line',
-          data: last_dead_data
+          data: last_dead_data,
+          markPoint: {
+            data: [
+              { type: 'max', name: '最大值' }
+            ]
+          }
         }]
+      })
+      that.pro_confirm_pie.setOption({
+        title: {
+          text: '全省累计确诊占比'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        series: [{
+          name: '数据对比',
+          type: 'pie',
+          radius: ['35%', '55%'],
+          avoidLabelOverlap: true,
+          label: {
+            position: 'outer'
+          },
+          data: [
+            { value: that.list[that.list.length - 1].confirm, name: '累计确诊' },
+            { value: that.province_list[0].confirm - that.list[that.list.length - 1].confirm, name: '其余地区' }
+          ]
+        }]
+      })
+      that.pro_current_pie.setOption({
+        title: {
+          text: '全省现存病例占比'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        series: [{
+          name: '数据对比',
+          type: 'pie',
+          radius: ['35%', '55%'],
+          avoidLabelOverlap: true,
+          label: {
+            position: 'outer'
+          },
+          data: [
+            { value: that.list[that.list.length - 1].current, name: '现存病例' },
+            { value: that.province_list[0].current - that.list[that.list.length - 1].current, name: '其余地区' }
+          ]
+        }]
+      })
+      that.pro_cured_chart.setOption({
+        title: {
+          text: '全省治愈死亡对比'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        xAxis: {
+          type: 'value'
+        },
+        yAxis: {
+          type: 'category',
+          data: ['累计死亡', '累计治愈']
+        },
+        series: [
+          {
+            name: that.list[0].place,
+            type: 'bar',
+            data: [that.list[that.list.length - 1].dead, that.list[that.list.length - 1].cured],
+            label: {
+              show: true,
+              position: 'insideRight'
+            }
+          },
+          {
+            name: that.province_list[0].place,
+            type: 'bar',
+            data: [that.province_list[that.province_list.length - 1].dead, that.province_list[that.province_list.length - 1].cured],
+            label: {
+              show: true,
+              position: 'insideRight'
+            }
+          }
+        ]
+      })
+      that.pro_percent_chart.setOption({
+        title: {
+          text: '全省比率对比'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        xAxis: {
+          type: 'value'
+        },
+        yAxis: {
+          type: 'category',
+          data: ['死亡率', '治愈率']
+        },
+        series: [
+          {
+            name: that.list[0].place,
+            type: 'bar',
+            data: [
+              (that.list[that.list.length - 1].dead * 100 / that.list[that.list.length - 1].confirm).toFixed(2),
+              (that.list[that.list.length - 1].cured * 100 / that.list[that.list.length - 1].confirm).toFixed(2)
+            ],
+            label: {
+              show: true,
+              position: 'insideRight'
+            }
+          },
+          {
+            name: that.province_list[0].place,
+            type: 'bar',
+            data: [
+              (that.province_list[that.province_list.length - 1].dead * 100 / that.province_list[that.province_list.length - 1].confirm).toFixed(2),
+              (that.province_list[that.province_list.length - 1].cured * 100 / that.province_list[that.province_list.length - 1].confirm).toFixed(2)
+            ],
+            label: {
+              show: true,
+              position: 'insideRight'
+            }
+          }
+        ]
       })
     }
   }
