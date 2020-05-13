@@ -18,8 +18,8 @@
         <el-button type="plain" size="small" icon="el-icon-search" @click="searchFunc_1_ex">查询市疫情数据</el-button>
       </el-col>
     </el-row>
-    <el-col :span="24" style="margin: 8px">
-      <el-card style="height: 100px">
+    <el-col :span="24">
+      <el-card style="height: 100px; margin: 8px">
         <el-col :span="4">
           <el-row style="margin-bottom: 8px">
             <el-tag>地区</el-tag>
@@ -66,8 +66,8 @@
         </el-col>
       </el-card>
     </el-col>
-    <el-col :span="24" style="margin: 8px">
-      <el-card style="height: 100px">
+    <el-col :span="24">
+      <el-card style="height: 100px; margin: 8px">
         <el-col :span="4">
           <el-row style="margin-bottom: 8px">
             <el-tag>地区</el-tag>
