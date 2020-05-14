@@ -23,14 +23,19 @@
       </el-col>
     </el-col>
     <el-col :span="24">
-      <el-col :span="14">
-        <el-card style="height: 400px; margin: 8px">
-          <div id="china_line" :style="{width: '100%', height: '380px'}" />
+      <el-col :span="13">
+        <el-card style="height: 350px; margin: 8px">
+          <div id="china_line" :style="{width: '100%', height: '330px'}" />
         </el-card>
       </el-col>
-      <el-col :span="10">
-        <el-card style="height: 400px; margin: 8px">
-          <div id="top_province" :style="{width: '100%', height: '380px'}" />
+      <el-col :span="5">
+        <el-card style="height: 350px; margin: 8px">
+          <div id="top_province" :style="{width: '100%', height: '330px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card style="height: 350px; margin: 8px">
+          <div id="main_province" :style="{width: '100%', height: '330px'}" />
         </el-card>
       </el-col>
     </el-col>
@@ -52,7 +57,8 @@ export default {
       top_confirm: null,
       top_dead: null,
       top_province: null,
-      china_line: null
+      china_line: null,
+      main_province: null
     }
   },
   created() {
@@ -65,6 +71,7 @@ export default {
     that.top_dead = echarts.init(document.getElementById('top_dead'), 'macarons')
     that.china_line = echarts.init(document.getElementById('china_line'), 'macarons')
     that.top_province = echarts.init(document.getElementById('top_province'), 'macarons')
+    that.main_province = echarts.init(document.getElementById('main_province'), 'macarons')
     this.init_trend()
     this.fetch_china_data()
   },
@@ -101,10 +108,14 @@ export default {
         series: [{
           name: '世界疫情仪表盘',
           data: [4239558, 2475235, 1472340, 291983],
-          type: 'bar',
+          type: 'effectScatter',
+          symbolSize: function(data) {
+            return data / 150000
+          },
+          color: '#2a8416',
           label: {
             show: true,
-            position: 'inside'
+            position: 'top'
           }
         }]
       })
@@ -138,10 +149,14 @@ export default {
         series: [{
           name: '中国疫情仪表盘',
           data: [84461, 200, 79617, 4644],
-          type: 'bar',
+          type: 'effectScatter',
+          symbolSize: function(data) {
+            return data / 4000
+          },
+          color: '#1a20f1',
           label: {
             show: true,
-            position: 'inside'
+            position: 'top'
           }
         }]
       })
@@ -272,6 +287,50 @@ export default {
             { value: 1276, name: '河南省' },
             { value: 1268, name: '浙江省' },
             { value: 12071, name: '其他' }
+          ]
+        }]
+      })
+      that.main_province.setOption({
+        title: {
+          text: '主要省份数据（中国）',
+          subtext: '2020-05-13'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        radar: {
+          name: {
+            textStyle: {
+              color: '#fff',
+              backgroundColor: '#999',
+              borderRadius: 3,
+              padding: [3, 5]
+            }
+          },
+          indicator: [
+            { text: '湖北', max: 90000 },
+            { text: '广东', max: 5000 },
+            { text: '河南', max: 5000 },
+            { text: '浙江', max: 5000 },
+            { text: '山东', max: 5000 },
+            { text: '北京', max: 5000 }
+          ]
+        },
+        series: [{
+          type: 'radar',
+          avoidLabelOverlap: true,
+          areaStyle: {},
+          data: [
+            {
+              value: [68134, 1589, 1276, 1268, 788, 593],
+              name: '累计确诊'
+            }
           ]
         }]
       })

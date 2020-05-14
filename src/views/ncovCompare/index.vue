@@ -115,14 +115,19 @@
       </el-card>
     </el-col>
     <el-col :span="24">
-      <el-col :span="12">
+      <el-col :span="8">
         <el-card style="height: 200px; margin: 8px">
           <div id="percent_chart" :style="{width: '100%', height: '200px'}" />
         </el-card>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
         <el-card style="height: 200px; margin: 8px">
           <div id="percent_chart_2" :style="{width: '100%', height: '200px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card style="height: 200px; margin: 8px">
+          <div id="new_confirm_chart" :style="{width: '100%', height: '180px'}" />
         </el-card>
       </el-col>
     </el-col>
@@ -184,7 +189,8 @@ export default {
       cured_chart: null,
       dead_chart: null,
       percent_chart: null,
-      percent_chart_2: null
+      percent_chart_2: null,
+      new_confirm_chart: null
     }
   },
   created() {
@@ -201,6 +207,7 @@ export default {
     that.dead_chart = echarts.init(document.getElementById('dead_chart'), 'roma')
     that.percent_chart = echarts.init(document.getElementById('percent_chart'), 'roma')
     that.percent_chart_2 = echarts.init(document.getElementById('percent_chart_2'), 'roma')
+    that.new_confirm_chart = echarts.init(document.getElementById('new_confirm_chart'), 'roma')
     that.updateCharts()
   },
   methods: {
@@ -279,6 +286,8 @@ export default {
     updateCharts() {
       var that = this
       var days_data = []
+      var new_confirm_data = []
+      var new_confirm_data_2 = []
       var last_confirm_data = []
       var last_confirm_data_2 = []
       var last_current_data = []
@@ -289,6 +298,8 @@ export default {
       var last_dead_data_2 = []
       for (var i = 0, len = that.last_14.length; i < len; i++) {
         days_data[i] = that.last_14[i].day
+        new_confirm_data[i] = that.last_14[i].new_confirm
+        new_confirm_data_2[i] = that.last_14_2[i].new_confirm
         last_confirm_data[i] = that.last_14[i].confirm
         last_confirm_data_2[i] = that.last_14_2[i].confirm
         last_current_data[i] = that.last_14[i].current
@@ -546,6 +557,47 @@ export default {
               name: that.list_2[0].place
             }
           ]
+        }]
+      })
+      that.new_confirm_chart.setOption({
+        title: {
+          text: '14天新增疫情趋势'
+        },
+        grid: {
+          left: '2%',
+          right: '2%',
+          bottom: '2%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        xAxis: {
+          type: 'category',
+          data: days_data
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          name: that.list[0].place,
+          data: new_confirm_data,
+          type: 'bar',
+          markPoint: {
+            data: [
+              { type: 'max', name: '最大值' }
+            ]
+          }
+        },
+        {
+          name: that.list_2[0].place,
+          data: new_confirm_data_2,
+          type: 'bar',
+          markPoint: {
+            data: [
+              { type: 'max', name: '最大值' }
+            ]
+          }
         }]
       })
     }
