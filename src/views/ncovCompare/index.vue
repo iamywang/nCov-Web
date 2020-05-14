@@ -175,12 +175,10 @@ require('echarts/theme/roma')
 export default {
   data() {
     return {
-      list: [
-        { 'day': '2020-05-12', 'confirm': 84451, 'current': 237, 'cured': 79570, 'new_confirm': 1, 'new_cured': 37, 'new_dead': 1, 'dead': 4644, 'place': '全国' }
-      ],
-      list_2: [],
-      last_14: [],
-      last_14_2: [],
+      list: [{ 'day': '2020-05-11', 'confirm': 44, 'current': 0, 'cured': 44, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '潍坊' }],
+      list_2: [{ 'day': '2020-05-11', 'confirm': 47, 'current': 0, 'cured': 47, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '济南' }],
+      last_14: [{ 'day': '2020-05-11', 'confirm': 44, 'current': 0, 'cured': 44, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '潍坊' }],
+      last_14_2: [{ 'day': '2020-05-11', 'confirm': 47, 'current': 0, 'cured': 47, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '济南' }],
       place_to_search: '',
       place_to_search_2: '',
       date_to_search: '',
@@ -192,12 +190,6 @@ export default {
       percent_chart_2: null,
       new_confirm_chart: null
     }
-  },
-  created() {
-    var that = this
-    that.list_2 = that.list
-    that.last_14 = that.list
-    that.last_14_2 = that.list
   },
   mounted() {
     var that = this
@@ -213,73 +205,45 @@ export default {
   methods: {
     searchFunc_1() {
       var that = this
-      axios.get('/server/getProvince/', {
+      axios.get('/server/getProvinceLasts/', {
         params: {
           day: that.date_to_search,
           province: that.place_to_search
         }
-      }).then(function(res) {
-        that.list = res.data
+      }).then(function(res2) {
+        that.list = res2.data
+        that.last_14 = res2.data
         axios.get('/server/getProvinceLasts/', {
           params: {
             day: that.date_to_search,
-            province: that.place_to_search
+            province: that.place_to_search_2
           }
-        }).then(function(res2) {
-          that.last_14 = res2.data
-          axios.get('/server/getProvince/', {
-            params: {
-              day: that.date_to_search,
-              province: that.place_to_search_2
-            }
-          }).then(function(res3) {
-            that.list_2 = res3.data
-            axios.get('/server/getProvinceLasts/', {
-              params: {
-                day: that.date_to_search,
-                province: that.place_to_search_2
-              }
-            }).then(function(res4) {
-              that.last_14_2 = res4.data
-              that.updateCharts()
-            })
-          })
+        }).then(function(res4) {
+          that.list_2 = res4.data
+          that.last_14_2 = res4.data
+          that.updateCharts()
         })
       })
     },
     searchFunc_1_ex() {
       var that = this
-      axios.get('/server/getCity/', {
+      axios.get('/server/getCityLasts/', {
         params: {
           day: that.date_to_search,
           city: that.place_to_search
         }
-      }).then(function(res) {
-        that.list = res.data
+      }).then(function(res2) {
+        that.list = res2.data
+        that.last_14 = res2.data
         axios.get('/server/getCityLasts/', {
           params: {
             day: that.date_to_search,
-            city: that.place_to_search
+            city: that.place_to_search_2
           }
-        }).then(function(res2) {
-          that.last_14 = res2.data
-          axios.get('/server/getCity/', {
-            params: {
-              day: that.date_to_search,
-              city: that.place_to_search_2
-            }
-          }).then(function(res3) {
-            that.list_2 = res3.data
-            axios.get('/server/getCityLasts/', {
-              params: {
-                day: that.date_to_search,
-                city: that.place_to_search_2
-              }
-            }).then(function(res4) {
-              that.last_14_2 = res4.data
-              that.updateCharts()
-            })
-          })
+        }).then(function(res4) {
+          that.list_2 = res4.data
+          that.last_14_2 = res4.data
+          that.updateCharts()
         })
       })
     },

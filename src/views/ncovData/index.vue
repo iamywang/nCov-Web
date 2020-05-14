@@ -131,11 +131,9 @@ require('echarts/theme/roma')
 export default {
   data() {
     return {
-      list: [
-        { 'day': '2020-05-12', 'confirm': 84451, 'current': 237, 'cured': 79570, 'new_confirm': 1, 'new_cured': 37, 'new_dead': 1, 'dead': 4644, 'place': '全国' }
-      ],
-      province_list: [],
-      last_14: [],
+      list: [{ 'day': '2020-05-11', 'confirm': 44, 'current': 0, 'cured': 44, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '潍坊' }],
+      province_list: [{ 'day': '2020-05-11', 'confirm': 788, 'current': 4, 'cured': 777, 'new_confirm': 0, 'new_cured': 1, 'new_dead': 0, 'dead': 7, 'place': '山东省' }],
+      last_14: [{ 'day': '2020-05-11', 'confirm': 44, 'current': 0, 'cured': 44, 'new_confirm': 0, 'new_cured': 0, 'new_dead': 0, 'dead': 0, 'place': '潍坊' }],
       place_to_search: '',
       place_to_search_mul: '',
       date_to_search: '',
@@ -148,11 +146,6 @@ export default {
       pro_cured_chart: null,
       pro_percent_chart: null
     }
-  },
-  created() {
-    var that = this
-    that.last_14 = that.list
-    that.province_list = that.list
   },
   mounted() {
     var that = this
