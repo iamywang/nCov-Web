@@ -314,22 +314,41 @@ export default {
             }
           },
           indicator: [
-            { text: '湖北', max: 90000 },
-            { text: '广东', max: 5000 },
-            { text: '河南', max: 5000 },
-            { text: '浙江', max: 5000 },
-            { text: '山东', max: 5000 },
-            { text: '北京', max: 5000 }
+            { text: '湖北', max: 68134 },
+            { text: '广东', max: 1800 },
+            { text: '河南', max: 1500 },
+            { text: '浙江', max: 1500 },
+            { text: '山东', max: 1000 },
+            { text: '北京', max: 800 }
           ]
         },
         series: [{
           type: 'radar',
           avoidLabelOverlap: true,
-          areaStyle: {},
           data: [
             {
               value: [68134, 1589, 1276, 1268, 788, 593],
-              name: '累计确诊'
+              name: '累计确诊',
+              lineStyle: {
+                width: 4,
+                color: '#7d4c11'
+              }
+            },
+            {
+              value: [63616, 1579, 1254, 1267, 777, 574],
+              name: '累计治愈',
+              lineStyle: {
+                width: 4,
+                color: '#6bbf6c'
+              }
+            },
+            {
+              value: [4512, 8, 22, 1, 7, 9],
+              name: '累计死亡',
+              lineStyle: {
+                width: 4,
+                color: 'rgb(206,136,136)'
+              }
             }
           ]
         }]
