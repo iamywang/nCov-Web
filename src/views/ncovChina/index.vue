@@ -18,17 +18,34 @@
       </el-col>
     </el-col>
     <el-col :span="24">
-      <el-card style="height: 500px; margin: 8px">
-        <div id="china_map" :style="{width: '100%', height: '480px'}" />
-      </el-card>
+      <el-col :span="12">
+        <el-card style="height: 450px; margin: 8px">
+          <div id="china_map" :style="{width: '100%', height: '420px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card style="height: 450px; margin: 8px">
+          <div id="china_current_map" :style="{width: '100%', height: '420px'}" />
+        </el-card>
+      </el-col>
     </el-col>
+    <el-table :data="china_list" element-loading-text="正在查询" stripe border fit highlight-current-row>
+      <el-table-column align="center" type="index" />
+      <el-table-column align="center" label="日期" prop="day" />
+      <el-table-column align="center" label="省/市" prop="place" />
+      <el-table-column align="center" label="累计确诊" prop="confirm" />
+      <el-table-column align="center" label="现存确诊" prop="current" />
+      <el-table-column align="center" label="累计治愈" prop="cured" />
+      <el-table-column align="center" label="累计死亡" prop="dead" />
+    </el-table>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
+require('echarts/map/js/china')
 
 export default {
   data() {
@@ -36,7 +53,11 @@ export default {
       china_trend: null,
       top_confirm: null,
       top_dead: null,
-      china_map: null
+      china_map: null,
+      china_current_map: null,
+      confirm_list: [],
+      current_list: [],
+      china_list: []
     }
   },
   mounted() {
@@ -45,7 +66,10 @@ export default {
     that.top_confirm = echarts.init(document.getElementById('top_confirm'), 'macarons')
     that.top_dead = echarts.init(document.getElementById('top_dead'), 'macarons')
     that.china_map = echarts.init(document.getElementById('china_map'), 'macarons')
+    that.china_current_map = echarts.init(document.getElementById('china_current_map'), 'macarons')
     that.init_trend()
+    that.fetchList()
+    echarts.connect([that.china_map, that.china_current_map])
   },
   methods: {
     init_trend() {
@@ -193,7 +217,121 @@ export default {
         ]
       })
     },
+    fetchList() {
+      var that = this
+      axios.get('/server/getChinaMap/', {
+        params: {
+          key: 'confirm'
+        }
+      }).then(function(res) {
+        that.confirm_list = res.data
+        axios.get('/server/getChinaMap/', {
+          params: {
+            key: 'current'
+          }
+        }).then(function(res2) {
+          that.current_list = res2.data
+          that.updateCharts()
+        })
+      })
+      axios.get('/server/getChinaMapList/', {
+        params: {
+          key: 'all'
+        }
+      }).then(function(res) {
+        that.china_list = res.data
+      })
+    },
     updateCharts() {
+      var that = this
+      that.china_map.setOption({
+        title: {
+          text: '累计确诊疫情地图',
+          subtext: '2020-05-11'
+        },
+        tooltip: {
+          formatter: function(params, ticket, callback) {
+            return params.seriesName + '<br />' + params.name + '：' + params.value
+          }
+        },
+        visualMap: {
+          min: 0,
+          max: 2000,
+          left: 'left',
+          top: 'bottom',
+          text: ['高', '低'],
+          calculable: true,
+          inRange: {
+            color: ['#f5f5f5', '#ff0000']
+          },
+          show: true
+        },
+        geo: {
+          map: 'china',
+          roam: true,
+          zoom: 1,
+          label: {
+            show: true
+          },
+          itemStyle: {
+            normal: {
+              borderColor: 'rgba(0, 0, 0, 0.2)'
+            }
+          }
+        },
+        series: [
+          {
+            name: '累计确诊',
+            type: 'map',
+            geoIndex: 0,
+            data: that.confirm_list
+          }
+        ]
+      })
+      that.china_current_map.setOption({
+        title: {
+          text: '现存确诊疫情地图',
+          subtext: '2020-05-11'
+        },
+        tooltip: {
+          formatter: function(params, ticket, callback) {
+            return params.seriesName + '<br />' + params.name + '：' + params.value
+          }
+        },
+        visualMap: {
+          min: 0,
+          max: 100,
+          left: 'left',
+          top: 'bottom',
+          text: ['高', '低'],
+          calculable: true,
+          inRange: {
+            color: ['#f5f5f5', '#ff0000']
+          },
+          show: true
+        },
+        geo: {
+          map: 'china',
+          roam: true,
+          zoom: 1,
+          label: {
+            show: true
+          },
+          itemStyle: {
+            normal: {
+              borderColor: 'rgba(0, 0, 0, 0.2)'
+            }
+          }
+        },
+        series: [
+          {
+            name: '现存确诊',
+            type: 'map',
+            geoIndex: 0,
+            data: that.current_list
+          }
+        ]
+      })
     }
   }
 }

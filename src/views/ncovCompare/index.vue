@@ -302,11 +302,11 @@ export default {
           data: [that.list[0].place, that.list_2[0].place]
         },
         series: [{
-          name: that.list[0].place,
+          name: that.list[0].place + '累计确诊',
           smooth: true,
           type: 'line',
           data: last_confirm_data,
-          color: '#123456',
+          color: '#828080',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -314,11 +314,11 @@ export default {
           }
         },
         {
-          name: that.list_2[0].place,
+          name: that.list_2[0].place + '累计确诊',
           smooth: true,
           type: 'line',
           data: last_confirm_data_2,
-          color: '#408040',
+          color: '#a902ef',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -356,11 +356,11 @@ export default {
           data: [that.list[0].place, that.list_2[0].place]
         },
         series: [{
-          name: that.list[0].place,
+          name: that.list[0].place + '现存确诊',
           smooth: true,
           type: 'line',
           data: last_current_data,
-          color: '#123456',
+          color: '#d01f1f',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -368,11 +368,11 @@ export default {
           }
         },
         {
-          name: that.list_2[0].place,
+          name: that.list_2[0].place + '现存确诊',
           smooth: true,
           type: 'line',
           data: last_current_data_2,
-          color: '#408040',
+          color: '#cdb262',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -410,11 +410,11 @@ export default {
           data: [that.list[0].place, that.list_2[0].place]
         },
         series: [{
-          name: that.list[0].place,
+          name: that.list[0].place + '累计治愈',
           smooth: true,
           type: 'line',
           data: last_cured_data,
-          color: '#123456',
+          color: '#a76da1',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -422,11 +422,11 @@ export default {
           }
         },
         {
-          name: that.list_2[0].place,
+          name: that.list_2[0].place + '累计治愈',
           smooth: true,
           type: 'line',
           data: last_cured_data_2,
-          color: '#408040',
+          color: '#11bf11',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -464,11 +464,11 @@ export default {
           data: [that.list[0].place, that.list_2[0].place]
         },
         series: [{
-          name: that.list[0].place,
+          name: that.list[0].place + '累计死亡',
           smooth: true,
           type: 'line',
           data: last_dead_data,
-          color: '#123456',
+          color: '#925151',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -476,11 +476,11 @@ export default {
           }
         },
         {
-          name: that.list_2[0].place,
+          name: that.list_2[0].place + '累计死亡',
           smooth: true,
           type: 'line',
           data: last_dead_data_2,
-          color: '#408040',
+          color: '#408076',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }

@@ -291,7 +291,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_confirm_data,
-          color: '#123456',
+          color: '#f69e62',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -303,7 +303,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_current_data,
-          color: '#408040',
+          color: '#d349dc',
           markPoint: {
             data: [
               { type: 'min', name: '最小值' }
@@ -345,7 +345,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_cured_data,
-          color: '#123456',
+          color: '#12710a',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -357,7 +357,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_dead_data,
-          color: '#408040',
+          color: '#804040',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
