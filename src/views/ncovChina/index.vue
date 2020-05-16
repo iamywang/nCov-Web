@@ -54,7 +54,7 @@ export default {
       that.china_trend.setOption({
         title: {
           text: '中国疫情仪表盘',
-          subtext: '2020-05-134'
+          subtext: '2020-05-14'
         },
         grid: {
           left: '2%',
