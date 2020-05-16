@@ -46,7 +46,6 @@
 import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
-require('echarts/theme/roma')
 
 export default {
   data() {

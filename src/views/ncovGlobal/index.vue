@@ -29,7 +29,6 @@
 // import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
-require('echarts/theme/roma')
 
 export default {
   data() {
@@ -85,7 +84,7 @@ export default {
           symbolSize: function(data) {
             return data / 150000
           },
-          color: '#1a20f1',
+          color: '#2a8416',
           label: {
             show: true,
             position: 'top'

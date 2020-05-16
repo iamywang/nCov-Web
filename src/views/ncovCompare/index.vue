@@ -170,7 +170,6 @@
 import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
-require('echarts/theme/roma')
 
 export default {
   data() {
@@ -195,11 +194,11 @@ export default {
     var that = this
     that.confirm_chart = echarts.init(document.getElementById('confirm_chart'), 'macarons')
     that.current_chart = echarts.init(document.getElementById('current_chart'), 'macarons')
-    that.cured_chart = echarts.init(document.getElementById('cured_chart'), 'roma')
-    that.dead_chart = echarts.init(document.getElementById('dead_chart'), 'roma')
-    that.percent_chart = echarts.init(document.getElementById('percent_chart'), 'roma')
-    that.percent_chart_2 = echarts.init(document.getElementById('percent_chart_2'), 'roma')
-    that.new_confirm_chart = echarts.init(document.getElementById('new_confirm_chart'), 'roma')
+    that.cured_chart = echarts.init(document.getElementById('cured_chart'), 'macarons')
+    that.dead_chart = echarts.init(document.getElementById('dead_chart'), 'macarons')
+    that.percent_chart = echarts.init(document.getElementById('percent_chart'), 'macarons')
+    that.percent_chart_2 = echarts.init(document.getElementById('percent_chart_2'), 'macarons')
+    that.new_confirm_chart = echarts.init(document.getElementById('new_confirm_chart'), 'macarons')
     that.updateCharts()
   },
   methods: {
@@ -293,6 +292,12 @@ export default {
             type: 'cross'
           }
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] }
+          }
+        },
         legend: {
           data: [that.list[0].place, that.list_2[0].place]
         },
@@ -301,6 +306,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_confirm_data,
+          color: '#123456',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -312,6 +318,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_confirm_data_2,
+          color: '#408040',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -339,6 +346,12 @@ export default {
             type: 'cross'
           }
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] }
+          }
+        },
         legend: {
           data: [that.list[0].place, that.list_2[0].place]
         },
@@ -347,6 +360,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_current_data,
+          color: '#123456',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -358,6 +372,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_current_data_2,
+          color: '#408040',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -379,6 +394,12 @@ export default {
           bottom: '2%',
           containLabel: true
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] }
+          }
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -393,6 +414,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_cured_data,
+          color: '#123456',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -404,6 +426,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_cured_data_2,
+          color: '#408040',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -425,6 +448,12 @@ export default {
           bottom: '2%',
           containLabel: true
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] }
+          }
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -439,6 +468,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_dead_data,
+          color: '#123456',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -450,6 +480,7 @@ export default {
           smooth: true,
           type: 'line',
           data: last_dead_data_2,
+          color: '#408040',
           markPoint: {
             data: [
               { type: 'max', name: '最大值' }
@@ -536,6 +567,12 @@ export default {
         tooltip: {
           trigger: 'item'
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] }
+          }
+        },
         xAxis: {
           type: 'category',
           data: days_data
@@ -564,6 +601,8 @@ export default {
           }
         }]
       })
+
+      echarts.connect([that.confirm_chart, that.current_chart, that.cured_chart, that.dead_chart])
     }
   }
 }
