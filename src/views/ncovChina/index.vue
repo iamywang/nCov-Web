@@ -57,7 +57,17 @@ export default {
       china_current_map: null,
       confirm_list: [],
       current_list: [],
-      china_list: []
+      china_list: [],
+      china_dashboard: [84484, 157, 79682, 4645],
+      china_top_confirm: [
+        { value: 44, name: '台湾' },
+        { value: 26, name: '香港' },
+        { value: 29, name: '吉林' },
+        { value: 12, name: '内蒙古' },
+        { value: 17, name: '上海' },
+        { value: 7, name: '北京' },
+        { value: 22, name: '其他' }
+      ]
     }
   },
   mounted() {
@@ -74,10 +84,11 @@ export default {
   methods: {
     init_trend() {
       var that = this
+      var search_date = '2020-05-17'
       that.china_trend.setOption({
         title: {
           text: '中国疫情仪表盘',
-          subtext: '2020-05-14'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -103,7 +114,7 @@ export default {
         },
         series: [{
           name: '中国疫情仪表盘',
-          data: [84465, 186, 79635, 4644],
+          data: that.china_dashboard,
           type: 'effectScatter',
           symbolSize: function(data) {
             return data / 4000
@@ -118,7 +129,7 @@ export default {
       that.top_confirm.setOption({
         title: {
           text: 'Top现存确诊',
-          subtext: '2020-05-14'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -136,15 +147,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 50, name: '台湾' },
-              { value: 38, name: '香港' },
-              { value: 25, name: '吉林' },
-              { value: 18, name: '内蒙古' },
-              { value: 15, name: '上海' },
-              { value: 10, name: '北京' },
-              { value: 30, name: '其他' }
-            ],
+            data: that.china_top_confirm,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -158,7 +161,7 @@ export default {
       that.top_dead.setOption({
         title: {
           text: 'Top累计死亡',
-          subtext: '2020-05-14'
+          subtext: search_date
         },
         grid: {
           left: '2%',

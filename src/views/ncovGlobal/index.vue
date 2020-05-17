@@ -38,7 +38,16 @@ export default {
       top_confirm: null,
       top_dead: null,
       global_map: null,
-      confirm_list: []
+      confirm_list: [],
+      global_dashboard: [4501097, 2592156, 1600791, 308150],
+      global_top_confirm: [
+        { value: 1442824, name: '美国' },
+        { value: 262843, name: '俄罗斯' },
+        { value: 236711, name: '英国' },
+        { value: 230183, name: '西班牙' },
+        { value: 223885, name: '意大利' },
+        { value: 2104651, name: '其他' }
+      ]
     }
   },
   mounted() {
@@ -53,10 +62,11 @@ export default {
   methods: {
     init_trend() {
       var that = this
+      var search_date = '2020-05-17'
       that.world_trend.setOption({
         title: {
           text: '世界疫情仪表盘',
-          subtext: '2020-05-16'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -82,7 +92,7 @@ export default {
         },
         series: [{
           name: '世界疫情仪表盘',
-          data: [4501097, 2592156, 1600791, 308150],
+          data: that.global_dashboard,
           type: 'effectScatter',
           symbolSize: function(data) {
             return data / 150000
@@ -97,7 +107,7 @@ export default {
       that.top_confirm.setOption({
         title: {
           text: 'Top累计确诊',
-          subtext: '2020-05-16'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -115,14 +125,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 1442824, name: '美国' },
-              { value: 262843, name: '俄罗斯' },
-              { value: 236711, name: '英国' },
-              { value: 230183, name: '西班牙' },
-              { value: 223885, name: '意大利' },
-              { value: 2104651, name: '其他' }
-            ],
+            data: that.global_top_confirm,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -136,7 +139,7 @@ export default {
       that.top_dead.setOption({
         title: {
           text: 'Top累计死亡',
-          subtext: '2020-05-16'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -215,10 +218,11 @@ export default {
     },
     updateCharts() {
       var that = this
+      var search_date = '2020-05-17'
       that.global_map.setOption({
         title: {
           text: '累计确诊疫情地图',
-          subtext: '2020-05-11'
+          subtext: search_date
         },
         tooltip: {
           formatter: function(params, ticket, callback) {

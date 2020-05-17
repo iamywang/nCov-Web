@@ -57,7 +57,25 @@ export default {
       top_dead: null,
       top_province: null,
       china_line: null,
-      main_province: null
+      main_province: null,
+      china_scatter: [84484, 157, 79682, 4645],
+      global_scatter: [4239558, 2475235, 1472340, 291983],
+      global_confirm: [
+        { value: 84461, name: '中国' },
+        { value: 1370016, name: '美国' },
+        { value: 242271, name: '俄罗斯' },
+        { value: 221216, name: '意大利' },
+        { value: 228691, name: '西班牙' },
+        { value: 226463, name: '英国' },
+        { value: 1866440, name: '其他' }
+      ],
+      china_top_pro: [
+        { value: 68134, name: '湖北省' },
+        { value: 1589, name: '广东省' },
+        { value: 1276, name: '河南省' },
+        { value: 1268, name: '浙江省' },
+        { value: 12071, name: '其他' }
+      ]
     }
   },
   created() {
@@ -77,10 +95,11 @@ export default {
   methods: {
     init_trend() {
       var that = this
+      var search_date = '2020-05-17'
       that.world_trend.setOption({
         title: {
           text: '世界疫情仪表盘',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -106,7 +125,7 @@ export default {
         },
         series: [{
           name: '世界疫情仪表盘',
-          data: [4239558, 2475235, 1472340, 291983],
+          data: that.global_scatter,
           type: 'effectScatter',
           symbolSize: function(data) {
             return data / 150000
@@ -121,7 +140,7 @@ export default {
       that.china_trend.setOption({
         title: {
           text: '中国疫情仪表盘',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -147,7 +166,7 @@ export default {
         },
         series: [{
           name: '中国疫情仪表盘',
-          data: [84461, 200, 79617, 4644],
+          data: that.china_scatter,
           type: 'effectScatter',
           symbolSize: function(data) {
             return data / 4000
@@ -162,7 +181,7 @@ export default {
       that.top_confirm.setOption({
         title: {
           text: 'Top确诊（世界）',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -180,15 +199,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 84461, name: '中国' },
-              { value: 1370016, name: '美国' },
-              { value: 242271, name: '俄罗斯' },
-              { value: 221216, name: '意大利' },
-              { value: 228691, name: '西班牙' },
-              { value: 226463, name: '英国' },
-              { value: 1866440, name: '其他' }
-            ],
+            data: that.global_confirm,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -202,7 +213,7 @@ export default {
       that.top_dead.setOption({
         title: {
           text: 'Top死亡（世界）',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -260,7 +271,7 @@ export default {
       that.top_province.setOption({
         title: {
           text: 'Top省份（中国）',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -280,19 +291,13 @@ export default {
           label: {
             position: 'outer'
           },
-          data: [
-            { value: 68134, name: '湖北省' },
-            { value: 1589, name: '广东省' },
-            { value: 1276, name: '河南省' },
-            { value: 1268, name: '浙江省' },
-            { value: 12071, name: '其他' }
-          ]
+          data: that.china_top_pro
         }]
       })
       that.main_province.setOption({
         title: {
           text: '主要省份数据（中国）',
-          subtext: '2020-05-13'
+          subtext: search_date
         },
         grid: {
           left: '2%',
@@ -326,7 +331,7 @@ export default {
           avoidLabelOverlap: true,
           data: [
             {
-              value: [68134, 1589, 1276, 1268, 788, 593],
+              value: [68134, 1590, 1276, 1268, 788, 593],
               name: '累计确诊',
               lineStyle: {
                 width: 4,
@@ -334,7 +339,7 @@ export default {
               }
             },
             {
-              value: [63616, 1579, 1254, 1267, 777, 574],
+              value: [63616, 1579, 1254, 1267, 780, 577],
               name: '累计治愈',
               lineStyle: {
                 width: 4,
