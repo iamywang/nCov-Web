@@ -409,7 +409,6 @@ export default {
           text: '疫情关键词',
           x: 'center',
           y: 'top',
-          backgroundColor: 'rgba(0,0,0,0)',
           textStyle: {
             fontSize: 18,
             fontWeight: 'bolder',

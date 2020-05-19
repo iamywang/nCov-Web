@@ -19,13 +19,13 @@
     </el-col>
     <el-col :span="24">
       <el-col :span="12">
-        <el-card style="height: 450px; margin: 8px">
-          <div id="china_map" :style="{width: '100%', height: '420px'}" />
+        <el-card style="height: 550px; margin: 8px">
+          <div id="china_map" :style="{width: '100%', height: '520px'}" />
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card style="height: 450px; margin: 8px">
-          <div id="china_current_map" :style="{width: '100%', height: '420px'}" />
+        <el-card style="height: 550px; margin: 8px">
+          <div id="china_current_map" :style="{width: '100%', height: '520px'}" />
         </el-card>
       </el-col>
     </el-col>
@@ -213,38 +213,23 @@ export default {
         ]
       })
     },
-    formatTime(date) {
-      var year = date.getFullYear()
-      var month = date.getMonth() + 1
-      var day = date.getDate()
-
-      if (month < 10) {
-        month = '0' + month
-      }
-      if (day < 10) {
-        day = '0' + day
-      }
-
-      return [year, month, day].join('-')
-    },
     fetchList() {
       var that = this
-      var key_date = '2020-05-11'
       axios.get('/server/getChinaMap/', {
         params: {
           key: 'confirm',
-          day: key_date
+          day: 'test'
         }
       }).then(function(res) {
         that.confirm_list = res.data
         axios.get('/server/getChinaMap/', {
           params: {
             key: 'current',
-            day: key_date
+            day: 'test'
           }
         }).then(function(res2) {
           that.current_list = res2.data
-          that.updateCharts(key_date)
+          that.updateCharts()
         })
       })
       axios.get('/server/getChinaMapList/', {
@@ -255,107 +240,148 @@ export default {
         that.china_list = res.data
       })
     },
-    updateCharts(key_date) {
+    updateCharts() {
       var that = this
-      var search_date = key_date
-      that.china_map.setOption({
-        title: {
-          text: '累计确诊疫情地图',
-          subtext: search_date
-        },
-        tooltip: {
-          formatter: function(params, ticket, callback) {
-            return params.seriesName + '<br />' + params.name + '：' + params.value
-          }
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false }
-          }
-        },
-        visualMap: {
-          min: 0,
-          max: 2500,
-          left: 'left',
-          top: 'bottom',
-          text: ['高', '低'],
-          calculable: true,
-          inRange: {
-            color: ['#f5f5f5', '#ff5050', '#800000']
+      var day_list = []
+      for (var i = 0; i < that.confirm_list.length; i++) {
+        day_list[i] = that.confirm_list[i][0].day
+      }
+
+      var option1 = {
+        baseOption: {
+          timeline: {
+            axisType: 'category',
+            autoPlay: true,
+            playInterval: 4000,
+            symbolSize: 12,
+            left: '5%',
+            right: '5%',
+            bottom: '0%',
+            width: '90%',
+            data: day_list,
+            tooltip: {
+              formatter: day_list
+            }
           },
-          show: true
-        },
-        geo: {
-          map: 'china',
-          roam: true,
-          zoom: 1,
-          label: {
+          tooltip: {
+            formatter: function(params, ticket, callback) {
+              return params.seriesName + '<br />' + params.name + '：' + params.value
+            }
+          },
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false }
+            }
+          },
+          visualMap: {
+            min: 0,
+            max: 2500,
+            left: 'left',
+            top: 'bottom',
+            text: ['高', '低'],
+            calculable: true,
+            inRange: {
+              color: ['#f5f5f5', '#ff5050', '#800000']
+            },
             show: true
           },
-          itemStyle: {
-            normal: {
-              borderColor: 'rgba(0, 0, 0, 0.2)'
+          geo: {
+            map: 'china',
+            roam: true,
+            zoom: 1,
+            label: {
+              show: true
+            },
+            itemStyle: {
+              normal: {
+                borderColor: 'rgba(0, 0, 0, 0.2)'
+              }
             }
           }
         },
-        series: [
-          {
+        options: []
+      }
+      var option2 = {
+        baseOption: {
+          timeline: {
+            axisType: 'category',
+            autoPlay: true,
+            playInterval: 4000,
+            symbolSize: 12,
+            left: '5%',
+            right: '5%',
+            bottom: '0%',
+            width: '90%',
+            data: day_list,
+            tooltip: {
+              formatter: day_list
+            }
+          },
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false }
+            }
+          },
+          tooltip: {
+            formatter: function(params, ticket, callback) {
+              return params.seriesName + '<br />' + params.name + '：' + params.value
+            }
+          },
+          visualMap: {
+            min: 0,
+            max: 100,
+            left: 'left',
+            top: 'bottom',
+            text: ['高', '低'],
+            calculable: true,
+            inRange: {
+              color: ['#f5f5f5', '#ff5050']
+            },
+            show: true
+          },
+          geo: {
+            map: 'china',
+            roam: true,
+            zoom: 1,
+            label: {
+              show: true
+            },
+            itemStyle: {
+              normal: {
+                borderColor: 'rgba(0, 0, 0, 0.2)'
+              }
+            }
+          }
+        },
+        options: []
+      }
+      for (var j = 0; j < that.confirm_list.length; j++) {
+        option1.options.push({
+          title: {
+            text: that.confirm_list[j][0].day + ' 累计确诊疫情趋势'
+          },
+          series: [{
             name: '累计确诊',
             type: 'map',
             geoIndex: 0,
-            data: that.confirm_list
-          }
-        ]
-      })
-      that.china_current_map.setOption({
-        title: {
-          text: '现存确诊疫情地图',
-          subtext: search_date
-        },
-        tooltip: {
-          formatter: function(params, ticket, callback) {
-            return params.seriesName + '<br />' + params.name + '：' + params.value
-          }
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false }
-          }
-        },
-        visualMap: {
-          min: 0,
-          max: 100,
-          left: 'left',
-          top: 'bottom',
-          text: ['高', '低'],
-          calculable: true,
-          inRange: {
-            color: ['#f5f5f5', '#ff5050']
+            data: that.confirm_list[j]
+          }]
+        })
+        option2.options.push({
+          title: {
+            text: that.current_list[j][0].day + ' 现存确诊疫情趋势'
           },
-          show: true
-        },
-        geo: {
-          map: 'china',
-          roam: true,
-          zoom: 1,
-          label: {
-            show: true
-          },
-          itemStyle: {
-            normal: {
-              borderColor: 'rgba(0, 0, 0, 0.2)'
-            }
-          }
-        },
-        series: [
-          {
+          series: [{
             name: '现存确诊',
             type: 'map',
             geoIndex: 0,
-            data: that.current_list
-          }
-        ]
-      })
+            data: that.current_list[j]
+          }]
+        })
+      }
+
+      that.china_map.setOption(option1)
+      that.china_current_map.setOption(option2)
     }
   }
 }
