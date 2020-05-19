@@ -288,7 +288,7 @@ export default {
           geo: {
             map: 'china',
             roam: true,
-            zoom: 1,
+            zoom: 1.25,
             label: {
               show: true
             },
@@ -342,7 +342,7 @@ export default {
           geo: {
             map: 'china',
             roam: true,
-            zoom: 1,
+            zoom: 1.25,
             label: {
               show: true
             },
