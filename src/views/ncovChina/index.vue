@@ -213,21 +213,38 @@ export default {
         ]
       })
     },
+    formatTime(date) {
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var day = date.getDate()
+
+      if (month < 10) {
+        month = '0' + month
+      }
+      if (day < 10) {
+        day = '0' + day
+      }
+
+      return [year, month, day].join('-')
+    },
     fetchList() {
       var that = this
+      var key_date = '2020-05-11'
       axios.get('/server/getChinaMap/', {
         params: {
-          key: 'confirm'
+          key: 'confirm',
+          day: key_date
         }
       }).then(function(res) {
         that.confirm_list = res.data
         axios.get('/server/getChinaMap/', {
           params: {
-            key: 'current'
+            key: 'current',
+            day: key_date
           }
         }).then(function(res2) {
           that.current_list = res2.data
-          that.updateCharts()
+          that.updateCharts(key_date)
         })
       })
       axios.get('/server/getChinaMapList/', {
@@ -238,9 +255,9 @@ export default {
         that.china_list = res.data
       })
     },
-    updateCharts() {
+    updateCharts(key_date) {
       var that = this
-      var search_date = '2020-05-17'
+      var search_date = key_date
       that.china_map.setOption({
         title: {
           text: '累计确诊疫情地图',

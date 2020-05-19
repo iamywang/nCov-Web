@@ -225,12 +225,12 @@ export default {
         },
         visualMap: {
           min: 0,
-          max: 100000,
+          max: 200000,
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
           inRange: {
-            color: ['#f5f5f5', '#ff0000']
+            color: ['#f5f5f5', '#ff5050', '#800000']
           },
           show: true
         },
