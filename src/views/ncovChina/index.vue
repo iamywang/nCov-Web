@@ -19,13 +19,13 @@
     </el-col>
     <el-col :span="24">
       <el-col :span="12">
-        <el-card style="height: 550px; margin: 8px">
-          <div id="china_map" :style="{width: '100%', height: '520px'}" />
+        <el-card style="height: 450px; margin: 8px">
+          <div id="china_map" :style="{width: '100%', height: '420px'}" />
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card style="height: 550px; margin: 8px">
-          <div id="china_current_map" :style="{width: '100%', height: '520px'}" />
+        <el-card style="height: 450px; margin: 8px">
+          <div id="china_current_map" :style="{width: '100%', height: '420px'}" />
         </el-card>
       </el-col>
     </el-col>
