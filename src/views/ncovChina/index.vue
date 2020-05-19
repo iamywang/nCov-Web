@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-col :span="24">
-      <el-col :span="7">
+      <el-col :span="8">
         <el-card style="height: 300px; margin: 8px">
           <div id="china_trend" :style="{width: '100%', height: '280px'}" />
         </el-card>
       </el-col>
-      <el-col :span="7">
+      <el-col :span="8">
         <el-card style="height: 300px; margin: 8px">
           <div id="top_confirm" :style="{width: '100%', height: '280px'}" />
         </el-card>
       </el-col>
-      <el-col :span="10">
+      <el-col :span="8">
         <el-card style="height: 300px; margin: 8px">
           <div id="top_dead" :style="{width: '100%', height: '280px'}" />
         </el-card>
@@ -99,12 +99,6 @@ export default {
         tooltip: {
           trigger: 'item'
         },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
-          }
-        },
         xAxis: {
           type: 'category',
           data: ['累计确诊', '现存确诊', '累计治愈', '累计死亡']
@@ -145,8 +139,8 @@ export default {
           {
             name: '现存确诊',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
+            radius: ['40%', '60%'],
+            center: ['50%', '50%'],
             data: that.china_top_confirm,
             emphasis: {
               itemStyle: {
@@ -247,10 +241,11 @@ export default {
     },
     updateCharts() {
       var that = this
+      var search_date = '2020-05-17'
       that.china_map.setOption({
         title: {
           text: '累计确诊疫情地图',
-          subtext: '2020-05-11'
+          subtext: search_date
         },
         tooltip: {
           formatter: function(params, ticket, callback) {
@@ -294,7 +289,7 @@ export default {
       that.china_current_map.setOption({
         title: {
           text: '现存确诊疫情地图',
-          subtext: '2020-05-11'
+          subtext: search_date
         },
         tooltip: {
           formatter: function(params, ticket, callback) {

@@ -1,41 +1,32 @@
 <template>
   <div class="app-container">
     <el-col :span="24">
-      <el-col :span="7">
-        <el-card style="height: 300px; margin: 8px">
-          <div id="world_trend" :style="{width: '100%', height: '280px'}" />
-        </el-card>
+      <el-col :span="16">
+        <el-col :span="12">
+          <el-card style="height: 350px; margin: 8px">
+            <div id="world_trend" :style="{width: '100%', height: '330px'}" />
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card style="height: 350px; margin: 8px">
+            <div id="china_trend" :style="{width: '100%', height: '330px'}" />
+          </el-card>
+        </el-col>
+        <el-col :span="24">
+          <el-card style="height: 400px; margin: 8px">
+            <div id="china_line" :style="{width: '100%', height: '360px'}" />
+          </el-card>
+        </el-col>
       </el-col>
-      <el-col :span="7">
-        <el-card style="height: 300px; margin: 8px">
-          <div id="china_trend" :style="{width: '100%', height: '280px'}" />
+      <el-col :span="8">
+        <el-card style="height: 250px; margin: 8px">
+          <div id="top_confirm" :style="{width: '100%', height: '230px'}" />
         </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card style="height: 300px; margin: 8px">
-          <div id="top_confirm" :style="{width: '100%', height: '280px'}" />
+        <el-card style="height: 250px; margin: 8px">
+          <div id="top_dead" :style="{width: '100%', height: '230px'}" />
         </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card style="height: 300px; margin: 8px">
-          <div id="top_dead" :style="{width: '100%', height: '280px'}" />
-        </el-card>
-      </el-col>
-    </el-col>
-    <el-col :span="24">
-      <el-col :span="13">
-        <el-card style="height: 350px; margin: 8px">
-          <div id="china_line" :style="{width: '100%', height: '330px'}" />
-        </el-card>
-      </el-col>
-      <el-col :span="5">
-        <el-card style="height: 350px; margin: 8px">
-          <div id="top_province" :style="{width: '100%', height: '330px'}" />
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card style="height: 350px; margin: 8px">
-          <div id="main_province" :style="{width: '100%', height: '330px'}" />
+        <el-card style="height: 250px; margin: 8px">
+          <div id="top_province" :style="{width: '100%', height: '230px'}" />
         </el-card>
       </el-col>
     </el-col>
@@ -88,7 +79,6 @@ export default {
     that.top_dead = echarts.init(document.getElementById('top_dead'), 'macarons')
     that.china_line = echarts.init(document.getElementById('china_line'), 'macarons')
     that.top_province = echarts.init(document.getElementById('top_province'), 'macarons')
-    that.main_province = echarts.init(document.getElementById('main_province'), 'macarons')
     this.init_trend()
     this.fetch_china_data()
   },
@@ -109,12 +99,6 @@ export default {
         },
         tooltip: {
           trigger: 'item'
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
-          }
         },
         xAxis: {
           type: 'category',
@@ -151,12 +135,6 @@ export default {
         tooltip: {
           trigger: 'item'
         },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
-          }
-        },
         xAxis: {
           type: 'category',
           data: ['累计确诊', '现存确诊', '累计治愈', '累计死亡']
@@ -180,7 +158,7 @@ export default {
       })
       that.top_confirm.setOption({
         title: {
-          text: 'Top确诊（世界）',
+          text: 'Top累计确诊（世界）',
           subtext: search_date
         },
         grid: {
@@ -197,8 +175,8 @@ export default {
           {
             name: '累计确诊',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
+            radius: '60%',
+            center: ['50%', '50%'],
             data: that.global_confirm,
             emphasis: {
               itemStyle: {
@@ -270,7 +248,7 @@ export default {
       })
       that.top_province.setOption({
         title: {
-          text: 'Top省份（中国）',
+          text: 'Top累计确诊（中国）',
           subtext: search_date
         },
         grid: {
@@ -286,75 +264,13 @@ export default {
         series: [{
           name: '数据对比',
           type: 'pie',
-          radius: ['35%', '55%'],
+          radius: ['40%', '60%'],
+          center: ['50%', '60%'],
           avoidLabelOverlap: true,
           label: {
             position: 'outer'
           },
           data: that.china_top_pro
-        }]
-      })
-      that.main_province.setOption({
-        title: {
-          text: '主要省份数据（中国）',
-          subtext: search_date
-        },
-        grid: {
-          left: '2%',
-          right: '2%',
-          bottom: '2%',
-          containLabel: true
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        radar: {
-          name: {
-            textStyle: {
-              color: '#fff',
-              backgroundColor: '#999',
-              borderRadius: 3,
-              padding: [3, 5]
-            }
-          },
-          indicator: [
-            { text: '湖北', max: 68134 },
-            { text: '广东', max: 1800 },
-            { text: '河南', max: 1500 },
-            { text: '浙江', max: 1500 },
-            { text: '山东', max: 1000 },
-            { text: '北京', max: 800 }
-          ]
-        },
-        series: [{
-          type: 'radar',
-          avoidLabelOverlap: true,
-          data: [
-            {
-              value: [68134, 1590, 1276, 1268, 788, 593],
-              name: '累计确诊',
-              lineStyle: {
-                width: 4,
-                color: '#7d4c11'
-              }
-            },
-            {
-              value: [63616, 1579, 1254, 1267, 780, 577],
-              name: '累计治愈',
-              lineStyle: {
-                width: 4,
-                color: '#6bbf6c'
-              }
-            },
-            {
-              value: [4512, 8, 22, 1, 7, 9],
-              name: '累计死亡',
-              lineStyle: {
-                width: 4,
-                color: 'rgb(206,136,136)'
-              }
-            }
-          ]
         }]
       })
     },
