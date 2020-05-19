@@ -84,27 +84,27 @@
     <el-col :span="24">
       <el-card style="height: 250px; margin: 8px">
         <el-col :span="5">
-          <div id="pro_confirm_pie" :style="{width: '100%', height: '240px'}" />
+          <div id="pro_confirm_pie" :style="{width: '100%', height: '230px'}" />
         </el-col>
         <el-col :span="5">
-          <div id="pro_current_pie" :style="{width: '100%', height: '240px'}" />
+          <div id="pro_current_pie" :style="{width: '100%', height: '230px'}" />
         </el-col>
         <el-col :span="7">
-          <div id="pro_cured_chart" :style="{width: '100%', height: '230px'}" />
+          <div id="pro_cured_chart" :style="{width: '100%', height: '220px'}" />
         </el-col>
         <el-col :span="7">
-          <div id="pro_percent_chart" :style="{width: '100%', height: '230px'}" />
+          <div id="pro_percent_chart" :style="{width: '100%', height: '220px'}" />
         </el-col>
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="confirm_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="confirm_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="cured_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="cured_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-table :data="last_14" element-loading-text="正在查询" stripe border fit highlight-current-row>
@@ -126,6 +126,7 @@
 import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
+require('echarts/theme/roma')
 
 export default {
   data() {
@@ -150,10 +151,10 @@ export default {
     var that = this
     that.confirm_chart = echarts.init(document.getElementById('confirm_chart'), 'macarons')
     that.cured_chart = echarts.init(document.getElementById('cured_chart'), 'macarons')
-    that.pro_confirm_pie = echarts.init(document.getElementById('pro_confirm_pie'), 'macarons')
-    that.pro_current_pie = echarts.init(document.getElementById('pro_current_pie'), 'macarons')
-    that.pro_cured_chart = echarts.init(document.getElementById('pro_cured_chart'), 'macarons')
-    that.pro_percent_chart = echarts.init(document.getElementById('pro_percent_chart'), 'macarons')
+    that.pro_confirm_pie = echarts.init(document.getElementById('pro_confirm_pie'), 'roma')
+    that.pro_current_pie = echarts.init(document.getElementById('pro_current_pie'), 'roma')
+    that.pro_cured_chart = echarts.init(document.getElementById('pro_cured_chart'), 'roma')
+    that.pro_percent_chart = echarts.init(document.getElementById('pro_percent_chart'), 'roma')
     that.updateCharts()
   },
   methods: {
@@ -273,8 +274,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         tooltip: {
@@ -327,8 +327,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         tooltip: {

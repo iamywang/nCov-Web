@@ -115,40 +115,40 @@
       </el-card>
     </el-col>
     <el-col :span="24">
-      <el-col :span="8">
-        <el-card style="height: 200px; margin: 8px">
-          <div id="percent_chart" :style="{width: '100%', height: '200px'}" />
+      <el-col :span="7">
+        <el-card style="height: 250px; margin: 8px">
+          <div id="percent_chart" :style="{width: '100%', height: '230px'}" />
         </el-card>
       </el-col>
-      <el-col :span="8">
-        <el-card style="height: 200px; margin: 8px">
-          <div id="percent_chart_2" :style="{width: '100%', height: '200px'}" />
+      <el-col :span="7">
+        <el-card style="height: 250px; margin: 8px">
+          <div id="percent_chart_2" :style="{width: '100%', height: '230px'}" />
         </el-card>
       </el-col>
-      <el-col :span="8">
-        <el-card style="height: 200px; margin: 8px">
-          <div id="new_confirm_chart" :style="{width: '100%', height: '180px'}" />
+      <el-col :span="10">
+        <el-card style="height: 250px; margin: 8px">
+          <div id="new_confirm_chart" :style="{width: '100%', height: '220px'}" />
         </el-card>
       </el-col>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="confirm_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="confirm_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="current_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="current_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="cured_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="cured_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-col :span="12">
-      <el-card style="height: 400px; margin: 8px">
-        <div id="dead_chart" :style="{width: '100%', height: '350px'}" />
+      <el-card style="height: 350px; margin: 8px">
+        <div id="dead_chart" :style="{width: '100%', height: '320px'}" />
       </el-card>
     </el-col>
     <el-table :data="last_14.concat(last_14_2)" element-loading-text="正在查询" stripe border fit highlight-current-row>
@@ -170,6 +170,7 @@
 import axios from 'axios'
 import echarts from 'echarts'
 require('echarts/theme/macarons')
+require('echarts/theme/roma')
 
 export default {
   data() {
@@ -196,9 +197,9 @@ export default {
     that.current_chart = echarts.init(document.getElementById('current_chart'), 'macarons')
     that.cured_chart = echarts.init(document.getElementById('cured_chart'), 'macarons')
     that.dead_chart = echarts.init(document.getElementById('dead_chart'), 'macarons')
-    that.percent_chart = echarts.init(document.getElementById('percent_chart'), 'macarons')
-    that.percent_chart_2 = echarts.init(document.getElementById('percent_chart_2'), 'macarons')
-    that.new_confirm_chart = echarts.init(document.getElementById('new_confirm_chart'), 'macarons')
+    that.percent_chart = echarts.init(document.getElementById('percent_chart'), 'roma')
+    that.percent_chart_2 = echarts.init(document.getElementById('percent_chart_2'), 'roma')
+    that.new_confirm_chart = echarts.init(document.getElementById('new_confirm_chart'), 'roma')
     that.updateCharts()
   },
   methods: {
@@ -294,8 +295,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         legend: {
@@ -348,8 +348,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         legend: {
@@ -396,8 +395,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         tooltip: {
@@ -450,8 +448,7 @@ export default {
         },
         toolbox: {
           feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] }
+            dataView: { show: true, readOnly: false }
           }
         },
         tooltip: {

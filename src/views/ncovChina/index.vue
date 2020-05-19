@@ -79,7 +79,6 @@ export default {
     that.china_current_map = echarts.init(document.getElementById('china_current_map'), 'macarons')
     that.init_trend()
     that.fetchList()
-    echarts.connect([that.china_map, that.china_current_map])
   },
   methods: {
     init_trend() {
@@ -252,15 +251,20 @@ export default {
             return params.seriesName + '<br />' + params.name + '：' + params.value
           }
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false }
+          }
+        },
         visualMap: {
           min: 0,
-          max: 2000,
+          max: 2500,
           left: 'left',
           top: 'bottom',
           text: ['高', '低'],
           calculable: true,
           inRange: {
-            color: ['#f5f5f5', '#ff0000']
+            color: ['#f5f5f5', '#ff5050', '#800000']
           },
           show: true
         },
@@ -296,6 +300,11 @@ export default {
             return params.seriesName + '<br />' + params.name + '：' + params.value
           }
         },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false }
+          }
+        },
         visualMap: {
           min: 0,
           max: 100,
@@ -304,7 +313,7 @@ export default {
           text: ['高', '低'],
           calculable: true,
           inRange: {
-            color: ['#f5f5f5', '#ff0000']
+            color: ['#f5f5f5', '#ff5050']
           },
           show: true
         },
