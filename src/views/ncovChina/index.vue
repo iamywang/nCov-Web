@@ -58,7 +58,7 @@ export default {
       confirm_list: [],
       current_list: [],
       china_list: [],
-      china_dashboard: [84484, 157, 79682, 4645],
+      china_dashboard: [84522, 141, 79736, 4645],
       china_top_confirm: [
         { value: 44, name: '台湾' },
         { value: 26, name: '香港' },
@@ -83,7 +83,7 @@ export default {
   methods: {
     init_trend() {
       var that = this
-      var search_date = '2020-05-17'
+      var search_date = '2020-05-22'
       that.china_trend.setOption({
         title: {
           text: '中国疫情仪表盘',

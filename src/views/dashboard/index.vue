@@ -58,23 +58,23 @@ export default {
       top_province: null,
       china_line: null,
       main_province: null,
-      china_scatter: [84484, 157, 79682, 4645],
-      global_scatter: [4239558, 2475235, 1472340, 291983],
+      china_scatter: [84522, 141, 79736, 4645],
+      global_scatter: [5131920, 2789391, 2011645, 330894],
       global_confirm: [
-        { value: 84461, name: '中国' },
-        { value: 1370016, name: '美国' },
-        { value: 242271, name: '俄罗斯' },
-        { value: 221216, name: '意大利' },
-        { value: 228691, name: '西班牙' },
-        { value: 226463, name: '英国' },
+        { value: 84522, name: '中国' },
+        { value: 1621333, name: '美国' },
+        { value: 326448, name: '俄罗斯' },
+        { value: 228006, name: '意大利' },
+        { value: 280117, name: '西班牙' },
+        { value: 252246, name: '英国' },
         { value: 1866440, name: '其他' }
       ],
       china_top_pro: [
-        { value: 68134, name: '湖北省' },
-        { value: 1589, name: '广东省' },
+        { value: 68135, name: '湖北省' },
+        { value: 1591, name: '广东省' },
         { value: 1276, name: '河南省' },
         { value: 1268, name: '浙江省' },
-        { value: 12071, name: '其他' }
+        { value: 12252, name: '其他' }
       ]
     }
   },
@@ -98,7 +98,7 @@ export default {
   methods: {
     init_trend() {
       var that = this
-      var search_date = '2020-05-17'
+      var search_date = '2020-05-22'
       that.world_trend.setOption({
         title: {
           text: '世界疫情仪表盘',
@@ -245,7 +245,7 @@ export default {
           {
             name: '累计死亡',
             type: 'bar',
-            data: [26991, 27104, 30911, 32692, 82389],
+            data: [28242, 27940, 32486, 36124, 96363],
             label: {
               show: true,
               position: 'insideRight'
@@ -384,7 +384,7 @@ export default {
       var that = this
       axios.get('/server/getChinaSeries/', {
         params: {
-          day: '2020-05-11'
+          day: '2020-05-21'
         }
       }).then(function(res) {
         that.china_last_14 = res.data

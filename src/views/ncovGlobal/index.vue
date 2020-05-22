@@ -45,14 +45,14 @@ export default {
       global_map: null,
       world_data: null,
       confirm_list: [],
-      global_dashboard: [4501097, 2592156, 1600791, 308150],
+      global_dashboard: [5131920, 2789391, 2011645, 330894],
       global_top_confirm: [
-        { value: 1442824, name: '美国' },
-        { value: 262843, name: '俄罗斯' },
-        { value: 236711, name: '英国' },
-        { value: 230183, name: '西班牙' },
-        { value: 223885, name: '意大利' },
-        { value: 2104651, name: '其他' }
+        { value: 1621333, name: '美国' },
+        { value: 326448, name: '俄罗斯' },
+        { value: 228006, name: '意大利' },
+        { value: 280117, name: '西班牙' },
+        { value: 252246, name: '英国' },
+        { value: 1866440, name: '其他' }
       ]
     }
   },
@@ -70,7 +70,7 @@ export default {
   methods: {
     init_trend() {
       var that = this
-      var search_date = '2020-05-17'
+      var search_date = '2020-05-22'
       that.world_trend.setOption({
         title: {
           text: '世界疫情仪表盘',
