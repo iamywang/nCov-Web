@@ -86,7 +86,7 @@ export default {
       var search_date = '2020-05-22'
       that.china_trend.setOption({
         title: {
-          text: '中国疫情仪表盘',
+          text: '中国疫情数据总览',
           subtext: search_date
         },
         grid: {
@@ -106,7 +106,7 @@ export default {
           type: 'value'
         },
         series: [{
-          name: '中国疫情仪表盘',
+          name: '中国疫情数据总览',
           data: that.china_dashboard,
           type: 'effectScatter',
           symbolSize: function(data) {
@@ -120,10 +120,28 @@ export default {
         }]
       })
       that.top_confirm.setOption({
-        title: {
+        title: [{
           text: 'Top现存确诊',
           subtext: search_date
         },
+        {
+          text: '{name|现存确诊' + '}\n{val|' + that.china_dashboard[1] + '}',
+          top: 'center',
+          left: 'center',
+          textStyle: {
+            rich: {
+              name: {
+                fontSize: 12,
+                color: '#999999',
+                padding: [10, 0]
+              },
+              val: {
+                fontSize: 20,
+                color: '#000000'
+              }
+            }
+          }
+        }],
         grid: {
           left: '2%',
           right: '2%',
@@ -139,7 +157,7 @@ export default {
             name: '现存确诊',
             type: 'pie',
             radius: ['40%', '60%'],
-            center: ['50%', '50%'],
+            center: ['50%', '53%'],
             data: that.china_top_confirm,
             emphasis: {
               itemStyle: {

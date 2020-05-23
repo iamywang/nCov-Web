@@ -365,9 +365,27 @@ export default {
         }]
       })
       that.pro_confirm_pie.setOption({
-        title: {
+        title: [{
           text: '全省累计确诊占比'
         },
+        {
+          text: '{name|占比' + '}\n{val|' + (that.list[that.list.length - 1].confirm * 100 / that.province_list[0].confirm).toFixed(2) + '%}',
+          top: 'center',
+          left: 'center',
+          textStyle: {
+            rich: {
+              name: {
+                fontSize: 12,
+                color: '#999999',
+                padding: [10, 0]
+              },
+              val: {
+                fontSize: 18,
+                color: '#000000'
+              }
+            }
+          }
+        }],
         grid: {
           left: '2%',
           right: '2%',
@@ -382,6 +400,7 @@ export default {
           name: '数据对比',
           type: 'pie',
           radius: ['35%', '55%'],
+          center: ['50%', '53%'],
           avoidLabelOverlap: true,
           label: {
             position: 'outer'
@@ -393,9 +412,27 @@ export default {
         }]
       })
       that.pro_current_pie.setOption({
-        title: {
+        title: [{
           text: '全省现存病例占比'
         },
+        {
+          text: '{name|占比' + '}\n{val|' + (that.list[that.list.length - 1].current * 100 / that.province_list[0].current).toFixed(2) + '%}',
+          top: 'center',
+          left: 'center',
+          textStyle: {
+            rich: {
+              name: {
+                fontSize: 12,
+                color: '#999999',
+                padding: [10, 0]
+              },
+              val: {
+                fontSize: 18,
+                color: '#000000'
+              }
+            }
+          }
+        }],
         grid: {
           left: '2%',
           right: '2%',
@@ -410,6 +447,7 @@ export default {
           name: '数据对比',
           type: 'pie',
           radius: ['35%', '55%'],
+          center: ['50%', '53%'],
           avoidLabelOverlap: true,
           label: {
             position: 'outer'

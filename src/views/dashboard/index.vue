@@ -101,7 +101,7 @@ export default {
       var search_date = '2020-05-22'
       that.world_trend.setOption({
         title: {
-          text: '世界疫情仪表盘',
+          text: '世界疫情数据总览',
           subtext: search_date
         },
         grid: {
@@ -121,7 +121,7 @@ export default {
           type: 'value'
         },
         series: [{
-          name: '世界疫情仪表盘',
+          name: '世界疫情数据总览',
           data: that.global_scatter,
           type: 'effectScatter',
           symbolSize: function(data) {
@@ -136,7 +136,7 @@ export default {
       })
       that.china_trend.setOption({
         title: {
-          text: '中国疫情仪表盘',
+          text: '中国疫情数据总览',
           subtext: search_date
         },
         grid: {
@@ -156,7 +156,7 @@ export default {
           type: 'value'
         },
         series: [{
-          name: '中国疫情仪表盘',
+          name: '中国疫情数据总览',
           data: that.china_scatter,
           type: 'effectScatter',
           symbolSize: function(data) {
@@ -260,10 +260,28 @@ export default {
         ]
       })
       that.top_province.setOption({
-        title: {
+        title: [{
           text: 'Top累计确诊（中国）',
           subtext: search_date
         },
+        {
+          text: '{name|累计确诊' + '}\n{val|' + that.china_scatter[0] + '}',
+          top: 'center',
+          left: 'center',
+          textStyle: {
+            rich: {
+              name: {
+                fontSize: 12,
+                color: '#999999',
+                padding: [10, 0]
+              },
+              val: {
+                fontSize: 20,
+                color: '#000000'
+              }
+            }
+          }
+        }],
         grid: {
           left: '2%',
           right: '2%',
@@ -278,7 +296,7 @@ export default {
           name: '数据对比',
           type: 'pie',
           radius: ['40%', '60%'],
-          center: ['50%', '60%'],
+          center: ['50%', '53%'],
           avoidLabelOverlap: true,
           label: {
             position: 'outer'
