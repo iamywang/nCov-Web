@@ -1,41 +1,70 @@
 <template>
   <div class="app-container">
-    <el-col :span="24">
-      <el-col :span="16">
-        <el-col :span="12">
-          <el-card style="height: 320px; margin: 8px">
-            <div id="world_trend" :style="{width: '100%', height: '290px'}" />
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card style="height: 320px; margin: 8px">
-            <div id="china_trend" :style="{width: '100%', height: '290px'}" />
-          </el-card>
-        </el-col>
-        <el-card style="height: 420px; margin: 8px">
-          <div id="word_cloud" :style="{width: '100%', height: '390px'}" />
+    <el-row>
+      <el-col :span="8">
+        <el-card style="height: 300px; margin: 8px">
+          <div id="world_trend" :style="{width: '100%', height: '270px'}" />
         </el-card>
-        <el-col :span="24">
-          <el-card style="height: 400px; margin: 8px">
-            <div id="china_line" :style="{width: '100%', height: '370px'}" />
-          </el-card>
-        </el-col>
+      </el-col>
+      <el-col :span="8">
+        <el-card style="height: 300px; margin: 8px">
+          <div id="china_trend" :style="{width: '100%', height: '270px'}" />
+        </el-card>
       </el-col>
       <el-col :span="8">
         <el-card style="height: 300px; margin: 8px">
           <div id="out_in" :style="{width: '100%', height: '270px'}" />
         </el-card>
-        <el-card style="height: 280px; margin: 8px">
-          <div id="top_confirm" :style="{width: '100%', height: '250px'}" />
-        </el-card>
-        <el-card style="height: 280px; margin: 8px">
-          <div id="top_dead" :style="{width: '100%', height: '250px'}" />
-        </el-card>
-        <el-card style="height: 280px; margin: 8px">
-          <div id="top_province" :style="{width: '100%', height: '250px'}" />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="6">
+        <el-card style="height: 330px; margin: 8px">
+          <el-timeline style="margin-left: -32px">
+            <el-timeline-item timestamp="2020.05.28 18:19" placement="top">
+              <el-tag type="danger" effect="dark">最新</el-tag>
+              <span>世卫组织：全球新冠肺炎确诊病例超过555万例</span>
+            </el-timeline-item>
+            <el-timeline-item timestamp="2020.05.28 16:46" placement="top">
+              <span>菲律宾新增539例新冠确诊病例 创单日最大增幅</span>
+            </el-timeline-item>
+            <el-timeline-item timestamp="2020.05.28 15:33" placement="top">
+              <span>俄罗斯新增8371例新冠肺炎确诊病例 累计近38万例</span>
+            </el-timeline-item>
+            <el-timeline-item timestamp="2020.05.28 11:35" placement="top">
+              <span>印度新增6566例新冠肺炎确诊病例 累计逾15.8万例</span>
+            </el-timeline-item>
+          </el-timeline>
         </el-card>
       </el-col>
-    </el-col>
+      <el-col :span="6">
+        <el-card style="height: 330px; margin: 8px">
+          <div id="top_province" :style="{width: '100%', height: '300px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card style="height: 330px; margin: 8px">
+          <div id="top_confirm" :style="{width: '100%', height: '300px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card style="height: 330px; margin: 8px">
+          <div id="top_dead" :style="{width: '100%', height: '300px'}" />
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
+        <el-card style="height: 450px; margin: 8px">
+          <div id="word_cloud" :style="{width: '100%', height: '420px'}" />
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card style="height: 450px; margin: 8px">
+          <div id="china_line" :style="{width: '100%', height: '420px'}" />
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -321,7 +350,7 @@ export default {
       }
       that.china_line.setOption({
         title: {
-          text: '14天中国疫情趋势'
+          text: '14天中国疫情'
         },
         xAxis: {
           data: days_data
