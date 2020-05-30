@@ -80,6 +80,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/news',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/ncovNews/index'),
+        name: 'GlobalMap',
+        meta: { title: '疫情最新消息', icon: 'message', affix: true }
+      }
+    ]
+  },
+  {
     path: '/global',
     component: Layout,
     children: [
