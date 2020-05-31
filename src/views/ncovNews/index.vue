@@ -25,13 +25,12 @@
       </el-card>
     </el-col>
     <el-col :span="16">
-      <el-card style="height: 260px; margin: 8px">
-        <el-tag>疫情科普</el-tag>
-        <div id="ncov_info" :style="{width: '100%', height: '210px'}" />
+      <el-card style="height: 330px; margin: 8px">
+        <div id="ncov_info" :style="{width: '100%', height: '350px'}" />
       </el-card>
-      <el-card style="height: 400px; margin: 8px">
+      <el-card style="height: 330px; margin: 8px">
         <el-tag>疫情词云</el-tag>
-        <div id="word_cloud" :style="{width: '100%', height: '350px'}" />
+        <div id="word_cloud" :style="{width: '100%', height: '280px'}" />
       </el-card>
     </el-col>
   </div>
@@ -52,7 +51,9 @@ export default {
     var that = this
     that.top_search = echarts.init(document.getElementById('top_search'), 'macarons')
     that.word_cloud = echarts.init(document.getElementById('word_cloud'), 'macarons')
+    that.ncov_info = echarts.init(document.getElementById('ncov_info'), 'macarons')
     that.init_search()
+    that.init_know()
     that.init_cloud()
   },
   methods: {
@@ -80,53 +81,51 @@ export default {
       }
 
       var maskImage = new Image()
-      maskImage.onload = function() {
-        that.world_cloud.setOption({
-          tooltip: {
-            show: false
-          },
-          series: [{
-            type: 'wordCloud',
-            gridSize: 1,
-            sizeRange: [10, 35],
-            rotationRange: [0, 90],
-            rotationStep: 90,
-            maskImage: maskImage,
-            textStyle: {
-              normal: {
-                color: function(v) {
-                  if (v.value > 600) {
-                    return 'rgb(0, 116, 111)'
-                  } else if (v.value > 200) {
-                    return 'rgb(0, 156, 147)'
-                  } else if (v.value > 9) {
-                    return 'rgb(70, 209, 133)'
-                  } else {
-                    return 'rgb(20, 186, 167)'
-                  }
+      maskImage.src = treeUrl
+      that.world_cloud.setOption({
+        tooltip: {
+          show: false
+        },
+        series: [{
+          type: 'wordCloud',
+          gridSize: 1,
+          sizeRange: [10, 35],
+          rotationRange: [0, 90],
+          rotationStep: 90,
+          maskImage: maskImage,
+          textStyle: {
+            normal: {
+              color: function(v) {
+                if (v.value > 600) {
+                  return 'rgb(0, 116, 111)'
+                } else if (v.value > 200) {
+                  return 'rgb(0, 156, 147)'
+                } else if (v.value > 9) {
+                  return 'rgb(70, 209, 133)'
+                } else {
+                  return 'rgb(20, 186, 167)'
                 }
               }
+            }
+          },
+          width: 600,
+          height: 500,
+          top: 40,
+          data: data
+        }],
+        graphic: {
+          elements: [{
+            type: 'image',
+            style: {
+              image: starUrl,
+              width: 40,
+              height: 40
             },
-            width: 600,
-            height: 500,
-            top: 40,
-            data: data
-          }],
-          graphic: {
-            elements: [{
-              type: 'image',
-              style: {
-                image: starUrl,
-                width: 40,
-                height: 40
-              },
-              left: 'center',
-              top: 40
-            }]
-          }
-        })
-      }
-      maskImage.src = treeUrl
+            left: 'center',
+            top: 40
+          }]
+        }
+      })
     },
     init_search() {
       var that = this
@@ -256,6 +255,122 @@ export default {
         animationEasing: 'cubicOut'
       }
       that.top_search.setOption(option)
+    },
+    init_know() {
+      var that = this
+      var data2 = [{
+        name: '疫情科普',
+        label: {
+          backgroundColor: '#682d9a'
+        },
+        children: [{
+          name: '啥是新冠病毒',
+          children: [{
+            name: '传染源：暂未找到',
+            label: {
+              backgroundColor: '#021b58'
+            },
+            children: [{
+              name: '绝非来自武汉',
+              label: {
+                backgroundColor: '#e2a700'
+              }
+            }]
+          }, {
+            name: '传播途径：呼吸道飞沫'
+          }, {
+            name: '易感人群：普遍易感'
+          }]
+        }, {
+          name: '典型症状',
+          children: [{
+            name: '发热、乏力、干咳'
+          }, {
+            name: '潜伏期3—7天'
+          }, {
+            name: '重症病例一周出现呼吸困难'
+          }]
+        }, {
+          name: '如何预防',
+          children: [{
+            name: '减少外出、佩戴口罩、保持卫生'
+          }, {
+            name: '不接触、购买和食用野生动物'
+          }, {
+            name: '个人和家人健康监测、注意营养'
+          }]
+        }, {
+          name: '出现症状怎么办',
+          children: [{
+            name: '前往医院、及时报备、核酸检测'
+          }, {
+            name: '主动透露旅行史、接触史'
+          }, {
+            name: '密切接触者注意隔离'
+          }]
+        }]
+      }]
+
+      var option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}'
+        },
+        series: [{
+          type: 'tree',
+          name: '疫情科普',
+          edgeShape: 'polyline',
+          data: data2,
+          top: '0%',
+          left: '0%',
+          symbolSize: 1,
+          initialTreeDepth: 10,
+          label: {
+            normal: {
+              position: 'center',
+              verticalAlign: 'middle',
+              align: 'left',
+              backgroundColor: '#01380d',
+              color: '#fff',
+              padding: 3,
+              formatter: [
+                '{box|{b}}'
+              ].join('\n'),
+              rich: {
+                box: {
+                  height: 18,
+                  color: '#fff',
+                  padding: [0, 5],
+                  align: 'center'
+                }
+              }
+            }
+          },
+          leaves: {
+            label: {
+              normal: {
+                position: 'center',
+                verticalAlign: 'middle',
+                align: 'left',
+                backgroundColor: '#021b58',
+                formatter: [
+                  '{box|{b}}'
+                ].join('\n'),
+                rich: {
+                  box: {
+                    height: 18,
+                    color: '#fff',
+                    padding: [0, 5],
+                    align: 'center'
+                  }
+                }
+              }
+            }
+          },
+          expandAndCollapse: true
+        }]
+      }
+      that.ncov_info.setOption(option)
     }
   }
 }
